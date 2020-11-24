@@ -6,11 +6,10 @@ from tkinter import *
 playerInput = ""
 playerCharPosX = 0
 playerCharPosY = 0
-monsterCharPosX = 0
-monsterCharPosY = 0
+wumpusCharPosX = 0
+wumpusCharPosY = 0
 playerCharShots = 0
 isPlayerAlive = True
-isGameRunning = True
 
 class Window(Frame):
 	def __init__(self, master = None):
