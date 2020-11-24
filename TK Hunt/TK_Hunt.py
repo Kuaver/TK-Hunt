@@ -1,15 +1,21 @@
-import math
 import random
-import time
 from tkinter import *
 
-playerInput = ""
-playerCharPosX = 0
-playerCharPosY = 0
-wumpusCharPosX = 0
-wumpusCharPosY = 0
-playerCharShots = 0
+playerCharPosX = random.randint(-5,5)
+playerCharPosY = random.randint(-5,5)
+wumpusCharPosX = random.randint(-5,5)
+wumpusCharPosY = random.randint(-5,5)
+playerCharShots = 3
 isPlayerAlive = True
+wumpusIsNearby = "You smell a wumpus."
+batsAreNearby = "You hear bats."
+pitIsNearby = "You feel a breeze."
+isNearbyField = ""
+
+while wumpusCharPosX == playerCharPosX and wwumpusCharPosY == playerCharPosY:
+	wumpusCharPosX = random.randint(-5,5)
+	wumpusCharPosY = random.randint(-5,5)
+
 
 class Window(Frame):
 	def __init__(self, master = None):
@@ -17,15 +23,22 @@ class Window(Frame):
 		self.master = master
 		self.pack(fill = BOTH, expand = 1)
 
-		self.playerLocationLabel = Label(text = "", fg = "BLUE", font = ("Helvetica 10 bold"), height = 1, width = 3)
-		self.playerLocationLabel.place(x = 30, y = 33)
-		self.update_player_position()
+		self.playerCoordinateLabel = Label(text = "", fg = "BLUE", font = ("Helvetica 10 bold"), height = 1, width = 3)
+		self.playerCoordinateLabel.place(x = 30, y = 33)
 
-		self.locationLabel = Label(text = "Position", fg = "ORANGE", font = ("Helvetica 10 bold"), relief = GROOVE)
-		self.locationLabel.place(x = 15, y = 90)
+		self.locationTagLabel = Label(text = "Position", fg = "ORANGE", font = ("Helvetica 10 bold"), relief = GROOVE)
+		self.locationTagLabel.place(x = 15, y = 90)
 		
-		self.locationLabel = Label(text = "Look", fg = "ORANGE", font = ("Helvetica 10 bold"), relief = GROOVE)
-		self.locationLabel.place(x = 105, y = 90)
+		self.shootTagLabel = Label(text = "Shoot", fg = "ORANGE", font = ("Helvetica 10 bold"), relief = GROOVE)
+		self.shootTagLabel.place(x = 105, y = 90)
+
+		self.nearbyLabel = Label(text = "", fg = "GRAY", font = ("Helvetica 8"), height = 1, width = 64)
+		self.nearbyLabel.place(x = 150, y = 65)
+
+		self.moveLocationLabel = Label(text = "You moved north.", fg = "GRAY", font = ("Helvetica 8"), height = 1, width = 64)
+		self.moveLocationLabel.place(x = 150, y = 0)
+
+		self.update_player_position()
 
 		moveNorthButton = Button(self, text="N", command=self.clickMoveNorthButton, height = 1, width = 1)
 		moveNorthButton.place(x = 35, y = 0)
@@ -39,16 +52,16 @@ class Window(Frame):
 		moveWestButton = Button(self, text="W", command=self.clickMoveWestButton, height = 1, width = 1)
 		moveWestButton.place(x = 10, y = 30)
 
-		lookNorthButton = Button(self, text="N", command=self.clickLookNorthButton, height = 1, width = 1)
+		lookNorthButton = Button(self, text="N", command=self.clickShootNorthButton, height = 1, width = 1)
 		lookNorthButton.place(x = 115, y = 0)
 
-		lookSouthButton = Button(self, text="S", command=self.clickLookSouthButton, height = 1, width = 1)
+		lookSouthButton = Button(self, text="S", command=self.clickShootSouthButton, height = 1, width = 1)
 		lookSouthButton.place(x = 115, y = 60)
 
-		lookEastButton = Button(self, text="E", command=self.clickLookEastButton, height = 1, width = 1)
+		lookEastButton = Button(self, text="E", command=self.clickShootEastButton, height = 1, width = 1)
 		lookEastButton.place(x = 140, y = 30)
 
-		lookWestButton = Button(self, text="W", command=self.clickLookWestButton, height = 1, width = 1)
+		lookWestButton = Button(self, text="W", command=self.clickShootWestButton, height = 1, width = 1)
 		lookWestButton.place(x = 90, y = 30)
 
 		menu = Menu(self.master)
@@ -61,12 +74,22 @@ class Window(Frame):
 	def update_player_position(self):
 		global playerCharPosX
 		global playerCharPosY
-		self.playerLocationLabel.configure(text=str(playerCharPosX)+","+str(playerCharPosY))
+		global wumpusCharPosX
+		global wumpusCharPosY
+		global isNearbyField
+		self.playerCoordinateLabel.configure(text=str(playerCharPosX)+","+str(playerCharPosY))
+		if (playerCharPosY + 1 == wumpusCharPosY and playerCharPosX == wumpusCharPosX) or (playerCharPosY - 1 == wumpusCharPosY and playerCharPosX == wumpusCharPosX) or (playerCharPosX + 1 == wumpusCharPosX and playerCharPosY == wumpusCharPosY) or (playerCharPosX - 1 == wumpusCharPosX and playerCharPosY == wumpusCharPosY) or (playerCharPosY + 1 == wumpusCharPosY and playerCharPosX + 1 == wumpusCharPosX) or (playerCharPosY + 1 == wumpusCharPosY and playerCharPosX - 1 == wumpusCharPosX) or (playerCharPosY - 1 == wumpusCharPosY and playerCharPosX + 1 == wumpusCharPosX) or (playerCharPosY - 1 == wumpusCharPosY and playerCharPosX - 1 == wumpusCharPosX):
+			isNearbyField = wumpusIsNearby
+			self.nearbyLabel.configure(text=str(isNearbyField))
+		elif playerCharPosX == wumpusCharPosX and playerCharPosY == wumpusCharPosY:
+			self.nearbyLabel.configure(text=str("You were eaten by the wumpus!"))
+			#add a death modifier here, find a way to make it function properly
 
 	def clickMoveNorthButton(self):
 		global playerCharPosY
 		if playerCharPosY < 5:
 			playerCharPosY = playerCharPosY + 1
+			self.moveLocationLabel.configure(text="You moved north.")
 		
 		else:
 			pass
@@ -77,6 +100,7 @@ class Window(Frame):
 		global playerCharPosY
 		if playerCharPosY > -5:
 			playerCharPosY = playerCharPosY - 1
+			self.moveLocationLabel.configure(text="You moved south.")
 
 		else:
 			pass
@@ -87,6 +111,7 @@ class Window(Frame):
 		global playerCharPosX
 		if playerCharPosX < 5:
 			playerCharPosX = playerCharPosX + 1
+			self.moveLocationLabel.configure(text="You moved east.")
 
 		else:
 			pass
@@ -97,22 +122,23 @@ class Window(Frame):
 		global playerCharPosX
 		if playerCharPosX > -5:
 			playerCharPosX = playerCharPosX - 1
+			self.moveLocationLabel.configure(text="You moved west.")
 
 		else:
 			pass
 
 		self.update_player_position()
 
-	def clickLookNorthButton(self):
+	def clickShootNorthButton(self):
 		pass
 
-	def clickLookSouthButton(self):
+	def clickShootSouthButton(self):
 		pass
 
-	def clickLookEastButton(self):
+	def clickShootEastButton(self):
 		pass
 
-	def clickLookWestButton(self):
+	def clickShootWestButton(self):
 		pass
 		
 	def exitProgram(self):
