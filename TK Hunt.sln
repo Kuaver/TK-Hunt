@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Hunt the Wumpus PY", "Hunt the Wumpus PY\Hunt the Wumpus PY.pyproj", "{3B68C2CC-304E-49ED-8FBD-7DCF6406CA4C}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "TK Hunt", "TK Hunt\TK Hunt.pyproj", "{3B68C2CC-304E-49ED-8FBD-7DCF6406CA4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,13 +4,13 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>3b68c2cc-304e-49ed-8fbd-7dcf6406ca4c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Hunt_the_Wumpus_PY.py</StartupFile>
+    <StartupFile>TK_Hunt.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Hunt the Wumpus PY</Name>
-    <RootNamespace>Hunt the Wumpus PY</RootNamespace>
+    <Name>TK Hunt</Name>
+    <RootNamespace>TK Hunt</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Hunt_the_Wumpus_PY.py" />
+    <Compile Include="TK_Hunt.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
