@@ -12,7 +12,7 @@ batsAreNearby = "You hear bats."
 pitIsNearby = "You feel a breeze."
 isNearbyField = ""
 
-while wumpusCharPosX == playerCharPosX and wwumpusCharPosY == playerCharPosY:
+while wumpusCharPosX == playerCharPosX and wumpusCharPosY == playerCharPosY:
 	wumpusCharPosX = random.randint(-5,5)
 	wumpusCharPosY = random.randint(-5,5)
 
